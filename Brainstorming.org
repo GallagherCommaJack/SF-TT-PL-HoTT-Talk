@@ -1,0 +1,35 @@
+# Broad ideas
+  - Univalence
+    - Isomorphic types are equal in some important sense
+  - HIT's
+    - Compactly express spaces with only things we care about
+
+# Applications of these ideas
+  - Univalence
+    - Transport!
+      - Analogy to implicits
+    - One of the main problems with dep types is library
+      - If your stuff isn't /exactly/ the same as the library, proofs won't work
+      - If your proof is easier with some representation of integers, but the library uses a different one, you're goign to have a bad time
+      - univalence to the rescue!
+        - Can translate proofs from one rep to another
+        - Except... not quite a solved problem
+        - Would require a better computational interp of univalence
+    - Function extensionality?
+      - I honestly don't know how this one works
+  - HIT's
+    - Function extensionality
+      - Interval type makes it a one-liner
+      - But we get to keep decidability!
+    - Synthetic homotopy theory
+# Specific neat things
+  - Function extensionality
+
+# Important equality distinctions
+  - Intentional type theory
+    - The thing you're all used to in Coq
+    - Judgemental equality (evaluation)
+    - Propositional equality (_=_ type)
+  - Extensional type theory (ett)
+    - Makes judgemental and propositional equality the same thing
+    - Typechecking becomes undecidable, because now involves proof search
