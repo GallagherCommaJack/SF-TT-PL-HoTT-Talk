@@ -1,12 +1,10 @@
 \documentclass[xcolor=svgnames]{beamer}
 
-\usepackage[utf8]    {inputenc}
-\usepackage[T1]      {fontenc}
-\usepackage[english] {babel}
-
-\usepackage{amsmath,amsfonts,graphicx}
+\usepackage{amsmath,amsfonts,amsthm,graphicx}
+\usepackage{mathtools}
 \usepackage{beamerleanprogress}
-\usepackage{minted}
+
+\input{macros}
 
 \title
   [Homotopy Type Theory\hspace{2em}]
@@ -19,13 +17,6 @@
   {Jack Gallagher}
 
 \date{May 18, 2015}
-
-% Operators
-\DeclareMathOperator{\refl}{refl}
-
-% Other useful things
-\newcommand{\jdeq}{\equiv}
-\newcommand{\defeq}{\vcentcolon\equiv}
 
 \begin{document}
 
@@ -46,18 +37,18 @@
   \item Internal to the logic
   \item (In ITT) ``lifts'' judgemental equality
   \item Only one constructor: \pause
-    $$ \refl : \underset{a:A}\Pi a =_A a $$
+    $$ \mathrm{refl} : \prd{a:A} a =_A a $$
   \end{itemize} \pause
 
   What would an induction principle look like?
 \end{frame}
 
 \begin{frame}{Propositional Induction}
-  Given: $A : U$, $C : \underset{a,b : A}\Pi a =_A b \to U$,
-  and $c : \underset{a:A}\Pi C(a,a,\refl_a)$, we can define
-  $$ f : \underset{a,b:A}\Pi \underset{p : a =_A b}\Pi C(a,b,p) $$
+  Given: $A : \type$, $C : \prd{a,b : A} a =_A b \to U$,
+  and $c : \prd{a:A} C(a,a,\refl{a})$, we can define
+  $$ f : \prd{a,b:A}{p : a =_A b} C(a,b,p) $$
   Such that for any $a:A$
-  $$ f(a,a,\refl_a) \defeq c(a) $$
+  $$ f(a,a,\refl{a} ) \defeq c(a) $$
 \end{frame}
 
 \begin{frame}{Problems}
@@ -106,10 +97,10 @@
 
 \begin{frame}{Functions}
   We say that a function $f : A \to B$ is continuous if it preservs paths.
-  $$ ap_f : \underset{x,y:A}\Pi x =_A y \to f(x) =_B f(y) $$ \pause
+  $$ \apfunc{f} : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
 
-  By path induction we can contract $p : x =_A y$ to $\refl_x$, for which we define
-  $ap_f(\refl_x) \defeq \refl_{f(x}$ \pause
+  By path induction we can contract $p : \id[A]{x}{y}$ to $\refl{x}$, for which we define
+  $\apfunc{f}(\refl{x}) \defeq \refl{f(x)}$ \pause
 
   Most of the important ideas in HoTT come from all functions being continuous
 \end{frame}
@@ -121,6 +112,20 @@
     \only<1>{\Huge When are two types equal?}
     \only<2>{\Huge When they represent equivalent spaces!}
   \end{center}
+\end{frame}
+
+\begin{frame}
+   $$ \eqv{\id[\type]{A}{B}}{\eqv{A}{B}} $$
+
+   \only<1>{What does this mean?}
+   \onslide<2->{The real action is in the type $\eqv{A}{B}$}
+
+   \onslide<2->{What does it mean for two types to represent equivalent spaces?}
+   \onslide<3->{
+    $$
+    \eqv{A}{B} \defeq \sm{f : A \to B}{g : B \to A}
+    (g \circ f ~ \idfunc[A]) \times (f \circ g ~ \idfunc[B])
+    $$}
 \end{frame}
 
 \section{Applications}
