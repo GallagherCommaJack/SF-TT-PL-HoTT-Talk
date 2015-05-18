@@ -10,7 +10,7 @@
       - Analogy to implicits
     - One of the main problems with dep types is library
       - If your stuff isn't /exactly/ the same as the library, proofs won't work
-      - If your proof is easier with some representation of integers, but the library uses a different one, you're goign to have a bad time
+      - If your proof is easier with some representation of integers, but the library uses a different one, you're going to have a bad time
       - univalence to the rescue!
         - Can translate proofs from one rep to another
         - Except... not quite a solved problem
