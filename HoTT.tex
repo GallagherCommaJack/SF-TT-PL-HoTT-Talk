@@ -1,10 +1,13 @@
 \documentclass[xcolor=svgnames]{beamer}
 
-\usepackage{amsmath,amsfonts,amsthm,graphicx}
+\usepackage[utf8]    {inputenc}
+\usepackage[T1]      {fontenc}
+\usepackage[english] {babel}
+
+\usepackage{amsmath,amsfonts,graphicx}
 \usepackage{mathtools}
 \usepackage{beamerleanprogress}
-
-\input{macros}
+\include{macros}
 
 \title
   [Homotopy Type Theory\hspace{2em}]
@@ -17,6 +20,9 @@
   {Jack Gallagher}
 
 \date{May 18, 2015}
+
+% Operators
+\DeclareMathOperator{\ap}{ap}
 
 \begin{document}
 
@@ -44,11 +50,11 @@
 \end{frame}
 
 \begin{frame}{Propositional Induction}
-  Given: $A : \type$, $C : \prd{a,b : A} a =_A b \to U$,
+  Given: $A : U$, $C : \prd{a,b : A} a =_A b \to U$,
   and $c : \prd{a:A} C(a,a,\refl{a})$, we can define
   $$ f : \prd{a,b:A}{p : a =_A b} C(a,b,p) $$
   Such that for any $a:A$
-  $$ f(a,a,\refl{a} ) \defeq c(a) $$
+  $$ f(a,a,\refl{a}) \defeq c(a) $$
 \end{frame}
 
 \begin{frame}{Problems}
@@ -96,11 +102,11 @@
 \end{frame}
 
 \begin{frame}{Functions}
-  We say that a function $f : A \to B$ is continuous if it preservs paths.
-  $$ \apfunc{f} : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
+  We say that a function $f : A \to B$ is continuous if it preserves paths.
+  $$ \ap_f : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
 
   By path induction we can contract $p : \id[A]{x}{y}$ to $\refl{x}$, for which we define
-  $\apfunc{f}(\refl{x}) \defeq \refl{f(x)}$ \pause
+  $\ap_f(\refl{x}) \defeq \refl{f(x}$ \pause
 
   Most of the important ideas in HoTT come from all functions being continuous
 \end{frame}
@@ -122,21 +128,62 @@
 
    \onslide<2->{What does it mean for two types to represent equivalent spaces?}
    \onslide<3->{
-    $$
-    \eqv{A}{B} \defeq \sm{f : A \to B}{g : B \to A}
-    (g \circ f ~ \idfunc[A]) \times (f \circ g ~ \idfunc[B])
-    $$}
+   $$
+   \eqv{A}{B} \defeq \sm{f : A \to B}{g : B \to A}
+   (g \circ f ~ \idfunc[A]) \times (f \circ g ~ \idfunc[B])
+   $$}
 \end{frame}
 
-\section{Applications}
+\section{Higher Inductive Types}
 
-\subsection{Function Extensionality}
-\subsection{Libraries}
-\subsection{Quotients}
-\subsection{Misc}
+\begin{frame}
+  \begin{center}
+    \Huge Why not introduce other nontrivial equalities?
+  \end{center}
+\end{frame}
 
-\section{Open problems}
-\subsection{Enrichment}
-\subsection{Metatheory}
+\begin{frame}{Beginning HIT's}
+  The interval type:
+  \begin{itemize}
+  \item Two points $0_I,1_I : I$
+  \item A path between them $\mathrm{seg} : \id[I]{0_I}{1_I}$
+  \end{itemize} \pause
 
+  How do we keep this consistent? \pause By requiring continuity.
+\end{frame}
+
+\begin{frame}{Induction on HIT's}
+  For any function $f : A \to B$, points $x,y : A$, and a path $p : x =_A y$,
+  we need a value for $ap_f(p)$
+
+  For $refl_x$ this is trivial, but what to do for $\map{f}{seg}$? \pause
+
+  We include such a value in the definition of $f$!
+
+  The induction principle for the interval:
+  $$
+  ind_I : \prd{P : I \to \type}{p_0 : P(0_I)}{p_1 : P(1_I)}
+  p_0 =^P_{\mathrm{seg}} p_1 \to \prd{i : I} P(i)
+  $$
+
+  $$ ind_I(P,p_0,p_1,\_,0_I) \equiv p_0 $$
+  $$ ind_I(P,p_0,p_1,\_,1_I) \equiv p_1 $$
+  $$ \map{ind_I(P,\_,\_,p)}{seg} = p $$
+\end{frame}
+
+\begin{frame}{Function Extensionality}
+  Extensionality is trivial with an interval \pause
+
+  Given $f,g : A \to B$, and a proof $p : \prd{x:A} f(x) =_B g(x)$,
+  we can define $q : A \times I \to B$
+  \begin{align}
+    q(x, 0_I) &\defeq f(x)
+    q(x, 1_I) &\defeq g(x)
+    q(x, seg) &\defeq p(x)
+  \end{align} \pause
+  $$ r(i) \defeq \lam{x} q(x, i) $$ \pause
+  $$ \ap_r(seg) : f = g $$
+\end{frame}
+
+\begin{frame}
 \end{document}
