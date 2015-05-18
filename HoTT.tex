@@ -6,7 +6,7 @@
 
 \usepackage{amsmath,amsfonts,graphicx}
 \usepackage{beamerleanprogress}
-
+\usepackage{minted}
 
 \title
   [Homotopy Type Theory\hspace{2em}]
@@ -20,23 +20,118 @@
 
 \date{May 18, 2015}
 
-%% Operators
-\DeclareMathOperator{\id}{id}
+% Operators
+\DeclareMathOperator{\refl}{refl}
+
+% Other useful things
+\newcommand{\jdeq}{\equiv}
+\newcommand{\defeq}{\vcentcolon\equiv}
 
 \begin{document}
 
 \maketitle
 
-\section{ITT vs ETT}
+\section{Equality, Judgement, and Extensionality}
+\begin{frame}{Judgemental Equality}
+  \begin{itemize}
+  \item Baked into evaluation
+  \item ``Definitional''
+  \item External to the logic
+  \end{itemize}
+\end{frame}
 
-\section{The Homotopical Interpretation}
+\begin{frame}{Propositional Equality}
+  \begin{itemize}
+  \item User defined
+  \item Internal to the logic
+  \item (In ITT) ``lifts'' judgemental equality
+  \item Only one constructor: \pause
+    $$ \refl : \underset{a:A}\Pi a =_A a $$
+  \end{itemize} \pause
+
+  What would an induction principle look like?
+\end{frame}
+
+\begin{frame}{Propositional Induction}
+  Given: $A : U$, $C : \underset{a,b : A}\Pi a =_A b \to U$,
+  and $c : \underset{a:A}\Pi C(a,a,\refl_a)$, we can define
+  $$ f : \underset{a,b:A}\Pi \underset{p : a =_A b}\Pi C(a,b,p) $$
+  Such that for any $a:A$
+  $$ f(a,a,\refl_a) \defeq c(a) $$
+\end{frame}
+
+\begin{frame}{Problems}
+  Propositional equality is weaker than we'd like
+  \begin{itemize}
+  \item It can't prove function extensionality \pause
+  \item Lots of otherwise indistinguishable things are not equal \pause
+  \item Quotients are hard \pause
+  \end{itemize}
+
+  How to solve this?
+\end{frame}
+
+\section{ETT}
+
+\begin{frame}{Extensionality}
+  ETT identifies judgemental and propositional equality \pause
+
+  Upsides:
+  \begin{itemize}
+  \item Can prove more things
+  \item Don't have to use transport
+  \end{itemize} \pause
+
+  Downsides:
+  \begin{itemize}
+  \item Proof checking is less well behaved
+  \item Still doesn't solve the quotient problem
+  \item Indistinguishable things still aren't equal
+  \end{itemize}
+\end{frame}
+
+\section{Homotopy Type Theory}
+
+\begin{frame}{Equalities Are Paths}
+  % This is where coffee cup topology enters in
+  The homotopical interpretation
+  \begin{itemize}
+  \item Types are spaces not sets
+  \item Equalities are paths in that space
+  \item Induction on equalities amounts to contracting paths
+  \end{itemize}
+
+  What do we get from this? % Spatial intuition is a powerful thing
+\end{frame}
+
+\begin{frame}{Functions}
+  We say that a function $f : A \to B$ is continuous if it preservs paths.
+  $$ ap_f : \underset{x,y:A}\Pi x =_A y \to f(x) =_B f(y) $$ \pause
+
+  By path induction we can contract $p : x =_A y$ to $\refl_x$, for which we define
+  $ap_f(\refl_x) \defeq \refl_{f(x}$ \pause
+
+  Most of the important ideas in HoTT come from all functions being continuous
+\end{frame}
 
 \section{Univalence}
+
+\begin{frame}
+  \begin{center}
+    \only<1>{\Huge When are two types equal?}
+    \only<2>{\Huge When they represent equivalent spaces!}
+  \end{center}
+\end{frame}
 
 \section{Applications}
 
 \subsection{Function Extensionality}
 \subsection{Libraries}
+\subsection{Quotients}
 \subsection{Misc}
+
+\section{Open problems}
+\subsection{Enrichment}
+\subsection{Metatheory}
 
 \end{document}
