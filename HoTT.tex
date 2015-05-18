@@ -101,11 +101,19 @@
   What do we get from this? % Spatial intuition is a powerful thing
 \end{frame}
 
-\begin{frame}{Functions}
+\begin{frame}{Transport}
+  Like a degenerate version of path induction
+  $$ \trans^-_- : \prd{P : A \to \type}{x,y : A} \to \id{x}{y} \to P(x) \to P(y) $$
+
+  Can contract $p : \id{x}{y}$ to $\refl{x}$, so we have
+  $\trans^P_{\refl{x}}(x,p) \defeq p$
+\end{frame}
+
+\begin{frame}{Functions and Continuity}
   We say that a function $f : A \to B$ is continuous if it preserves paths.
   $$ \ap_f : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
 
-  By path induction we can contract $p : \id[A]{x}{y}$ to $\refl{x}$, for which we define
+  By path induction we can contract $p : \id{x}{y}$ to $\refl{x}$, for which we define
   $\ap_f(\refl{x}) \defeq \refl{f(x}$ \pause
 
   Most of the important ideas in HoTT come from all functions being continuous
@@ -121,7 +129,7 @@
 \end{frame}
 
 \begin{frame}
-   $$ \eqv{\id[\type]{A}{B}}{\eqv{A}{B}} $$
+   $$ \eqv{\id{A}{B}}{\eqv{A}{B}} $$
 
    \only<1>{What does this mean?}
    \onslide<2->{The real action is in the type $\eqv{A}{B}$}
@@ -132,6 +140,22 @@
    \eqv{A}{B} \defeq \sm{f : A \to B}{g : B \to A}
    (g \circ f ~ \idfunc[A]) \times (f \circ g ~ \idfunc[B])
    $$}
+\end{frame}
+
+\begin{frame}{Univalence and Transport}
+  Univalence suggests we need a richer notion of transport. For any equivalence
+  $f : A \to B$, the straightforward definition of transport is
+  $$ transport^{\_ \mapsto A}_{\mathrm{ua}(f)}(A,a) = f(a) $$
+
+  Equality proofs now carry information about \emph{how} to transport a value! \pause
+
+  This is one of the most important notions from a PL perspective
+  \begin{itemize}
+  \item Predicates on isomorphic structures can be transported
+  \item Lots of the benefits of Scala's implicits
+  \item Libraries can share tools more easily
+  \item Lets you give induction principles to nontrivial loop spaces
+  \end{itemize}
 \end{frame}
 
 \section{Higher Inductive Types}
@@ -146,7 +170,7 @@
   The interval type:
   \begin{itemize}
   \item Two points $0_I,1_I : I$
-  \item A path between them $\mathrm{seg} : \id[I]{0_I}{1_I}$
+  \item A path between them $\mathrm{seg} : \id{0_I}{1_I}$
   \end{itemize} \pause
 
   How do we keep this consistent? \pause By requiring continuity.
@@ -185,5 +209,20 @@
   $$ \ap_r(seg) : f = g $$
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Quotient types}
+  The reason HITs matter to non-topologists, show up everywhere
+
+  Examples:
+  \begin{itemize}
+  \item Numbers (the rationals, the reals, an easy definition of integers)
+  \item Languages (can make judgementally equal terms actually equal)
+  \item Lots of other things (patch theory is a recent example)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Questions?}
+  \begin{center}
+    \Huge What else?
+  \end{center}
+\end{frame}
 \end{document}
