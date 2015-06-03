@@ -7,7 +7,6 @@
 \usepackage{amsmath,amsfonts,graphicx}
 \usepackage{mathtools}
 \usepackage{beamerleanprogress}
-\include{macros}
 
 \title
   [Homotopy Type Theory\hspace{2em}]
@@ -22,7 +21,8 @@
 \date{May 18, 2015}
 
 % Operators
-\DeclareMathOperator{\ap}{ap}
+\DeclareMathOperator{\apf}{ap}
+\include{macros}
 
 \begin{document}
 
@@ -103,18 +103,18 @@
 
 \begin{frame}{Transport}
   Like a degenerate version of path induction
-  $$ \trans^-_- : \prd{P : A \to \type}{x,y : A} \to \id{x}{y} \to P(x) \to P(y) $$
+  $$ \mathrm{transport} : \prd{P : A \to \type}{x,y : A} \to \id{x}{y} \to P(x) \to P(y) $$
 
   Can contract $p : \id{x}{y}$ to $\refl{x}$, so we have
-  $\trans^P_{\refl{x}}(x,p) \defeq p$
+  $\mathrm{transport}^P_{\refl{x}}(x,p) \defeq p$
 \end{frame}
 
 \begin{frame}{Functions and Continuity}
   We say that a function $f : A \to B$ is continuous if it preserves paths.
-  $$ \ap_f : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
+  $$ \apf_f : \prd{x,y:A} x =_A y \to f(x) =_B f(y) $$
 
   By path induction we can contract $p : \id{x}{y}$ to $\refl{x}$, for which we define
-  $\ap_f(\refl{x}) \defeq \refl{f(x}$ \pause
+  $\apf_f(\refl{x}) \defeq \refl{f(x)}$ \pause
 
   Most of the important ideas in HoTT come from all functions being continuous
 \end{frame}
@@ -131,15 +131,15 @@
 \begin{frame}
    $$ \eqv{\id{A}{B}}{\eqv{A}{B}} $$
 
-   \only<1>{What does this mean?}
-   \onslide<2->{The real action is in the type $\eqv{A}{B}$}
+  What does this mean? \pause
+   The real action is in the type $\eqv{A}{B}$
 
-   \onslide<2->{What does it mean for two types to represent equivalent spaces?}
-   \onslide<3->{
+   What does it mean for two types to represent equivalent spaces? \pause
+   
    $$
    \eqv{A}{B} \defeq \sm{f : A \to B}{g : B \to A}
    (g \circ f ~ \idfunc[A]) \times (f \circ g ~ \idfunc[B])
-   $$}
+   $$
 \end{frame}
 
 \begin{frame}{Univalence and Transport}
@@ -200,13 +200,13 @@
 
   Given $f,g : A \to B$, and a proof $p : \prd{x:A} f(x) =_B g(x)$,
   we can define $q : A \times I \to B$
-  \begin{align}
-    q(x, 0_I) &\defeq f(x)
-    q(x, 1_I) &\defeq g(x)
+  \begin{align*}
+    q(x, 0_I) &\defeq f(x) \\
+    q(x, 1_I) &\defeq g(x) \\
     q(x, seg) &\defeq p(x)
-  \end{align} \pause
+  \end{align*} \pause
   $$ r(i) \defeq \lam{x} q(x, i) $$ \pause
-  $$ \ap_r(seg) : f = g $$
+  $$ \apf_r(seg) : f = g $$
 \end{frame}
 
 \begin{frame}{Quotient types}
